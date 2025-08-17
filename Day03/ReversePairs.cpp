@@ -1,94 +1,72 @@
-#include <iostream>
-#include <vector>
-using namespace std;
+class Solution {
+public:
 
-int c = 0;
-
-int countInversions(int arr[], int start, int mid, int end) {
-    
-    // inside this function logic we are basically going to count the total number of the inversions
-    int left = start, right = mid + 1;
     int count = 0;
+
+    int reversePairs(vector<int> &nums, int start, int mid, int end) {
+    int left = start, right = mid + 1;
+    int cnt = 0;
     while(left <= mid && right <= end) {
-        if(arr[left] > 2 * arr[right]) {
-            // it is an inversion
-            count += mid - left + 1;
-            // rest left array elements are also going to be the inversions, because left array will be sorted
-            right ++;
+        if ((long long)nums[left] > 2LL * nums[right]) {
+            cnt += mid - left + 1;
+            right++;
         } else {
-            left ++;
+            left++;
         }
     }
-    return count;
+    return cnt;
 }
 
-void merge(int arr[], int start, int mid, int end) {
-    int left = start, right = mid + 1, index = 0;
-    vector<int> temp(end - start + 1);
-    while(left <= mid && right <= end) {
-        if(arr[left] <= arr[right]) {
-            temp[index] = arr[left];
-            index ++;
+
+    void merge(vector<int> &nums, int start, int mid, int end) {
+        int left = start, right = mid + 1, index = 0;
+        vector<int> temp(end - start + 1);
+        while(left <= mid && right <= end) {
+            if(nums[left] <= nums[right]) {
+                temp[index] = nums[left];
+                left ++;
+                index ++;
+            } else {
+                temp[index] = nums[right];
+                right ++;
+                index ++;
+            }
+        }
+        while(left <= mid) {
+            temp[index] = nums[left];
             left ++;
-        } else {
-            temp[index] = arr[right];
             index ++;
+        }
+
+        while(right <= end) {
+            temp[index] = nums[right];
             right ++;
+            index ++;
+        }
+        index = 0;
+        while(start <= end) {
+            nums[start] = temp[index];
+            start ++;
+            index ++;
         }
     }
-    // what if some elements are left in the left array
-    while(left <= mid){
-        temp[index] = arr[left];
-        left ++;
-        index ++;
-    }
-    // what if some elements are left in the right array
-    while(right <= end){
-        temp[index] = arr[right];
-        right ++;
-        index ++;
-    }
-    index = 0;
-    while(start <= end) {
-        arr[start] = temp[index];
-        start ++;
-        index ++;
-    }
-}
 
-void mergeSort(int arr[], int start, int end) {
-    // base case
-    if(start == end) {
-        return;
+    void mergeSort(vector<int>& nums, int start, int end) {
+        if(start == end) {
+            return;
+        }
+        int mid = start + (end - start) / 2;
+        mergeSort(nums, start, mid);
+        mergeSort(nums, mid + 1, end);
+        count += reversePairs(nums, start, mid, end);
+        merge(nums, start, mid, end);
     }
-    // calculate mid
-    int mid = start + (end - start) / 2;
-
-    // dividing the left array
-    mergeSort(arr, start, mid);
-
-    // dividing the right array
-    mergeSort(arr, mid + 1, end);
-
-    // at this particular step only, We basically have to count the inversions
-    c += countInversions(arr, start, mid, end);
     
-    // finally merging the 2 arrays
-    merge(arr, start, mid, end);
-}
-
-int main() {
-
-    int arr[] = {2, 4, 3, 5, 1};
-    int n = 5;
-    // first function call
-    mergeSort(arr, 0, 4);
-    // printing the finally sorted array
-    for(int i = 0; i < n; i++) {
-        cout << arr[i] << " ";
+    int reversePairs(vector<int>& nums) {
+        int n = nums.size();
+        int start = 0;
+        int end = (n - 1);
+        mergeSort(nums, start, end);
+        return count;
     }
-    cout << endl;
-    cout << c << endl;
-    
-    return 0;
-}
+};
