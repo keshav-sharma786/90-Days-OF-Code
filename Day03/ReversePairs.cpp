@@ -56,12 +56,12 @@ void mergeSort(int arr[], int start, int end) {
 
 int main() {
 
-    int arr[] = {3, 2, 1};
-    int n = 3;
+    int arr[] = {2, 4, 3, 5, 1};
+    int n = 5;
     // first function call
-    mergeSort(arr, 0, 2);
+    mergeSort(arr, 0, 4);
     // printing the finally sorted array
-    for(int i = 0; i < 3; i++) {
+    for(int i = 0; i < n; i++) {
         cout << arr[i] << " ";
     }
     
