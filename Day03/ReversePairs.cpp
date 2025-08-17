@@ -2,6 +2,26 @@
 #include <vector>
 using namespace std;
 
+int c = 0;
+
+int countInversions(int arr[], int start, int mid, int end) {
+    
+    // inside this function logic we are basically going to count the total number of the inversions
+    int left = start, right = mid + 1;
+    int count = 0;
+    while(left <= mid && right <= end) {
+        if(arr[left] > 2 * arr[right]) {
+            // it is an inversion
+            count += mid - left + 1;
+            // rest left array elements are also going to be the inversions, because left array will be sorted
+            right ++;
+        } else {
+            left ++;
+        }
+    }
+    return count;
+}
+
 void merge(int arr[], int start, int mid, int end) {
     int left = start, right = mid + 1, index = 0;
     vector<int> temp(end - start + 1);
@@ -50,6 +70,9 @@ void mergeSort(int arr[], int start, int end) {
     // dividing the right array
     mergeSort(arr, mid + 1, end);
 
+    // at this particular step only, We basically have to count the inversions
+    c += countInversions(arr, start, mid, end);
+    
     // finally merging the 2 arrays
     merge(arr, start, mid, end);
 }
@@ -64,6 +87,8 @@ int main() {
     for(int i = 0; i < n; i++) {
         cout << arr[i] << " ";
     }
+    cout << endl;
+    cout << c << endl;
     
     return 0;
 }
