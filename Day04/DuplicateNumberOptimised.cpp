@@ -3,7 +3,7 @@ using namespace std;
 
 int main() {
     // now we'll solve the same question with the help of cyclic sort
-    int arr[] = {3, 1, 3, 4, 2};
+    int arr[] = {1, 3, 4, 2, 2};
     int n = sizeof(arr) / sizeof(arr[0]);
     int idx = 0;
     while(idx < n) {
@@ -19,5 +19,6 @@ int main() {
             }
         }
     }
+    
     return 0;
 }
