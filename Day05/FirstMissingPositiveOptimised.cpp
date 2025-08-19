@@ -24,6 +24,6 @@ int main() {
         }
     }
 
-    cout << (n + 1) << endl;
+    // cout << (n + 1) << endl;
     return 0;
 }
